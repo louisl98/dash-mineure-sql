@@ -3,6 +3,7 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 import psycopg2
+import plotly.express as px
 
 # database
 def getprovinces():
@@ -45,5 +46,9 @@ app.layout = html.Div(children=[
         }
     )
 ])
+df = px.data.gapminder().query("year == 2007").query("continent == 'Europe'")
+df.loc[df['pop'] < 2.e6, 'country'] = 'Other countries' # Represent only large countries
+fig = px.pie(df, values='pop', names='country', title='Population of European continent')
+fig.show()
 if __name__ == '__main__':
     app.run_server(debug=True)
