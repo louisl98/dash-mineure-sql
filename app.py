@@ -38,8 +38,9 @@ app.layout = html.Div(children=[
             'data': [
                 {'x': [provinces[0][0]], 'y': [provinces[0][3]], 'type': 'bar', 'name': provinces[0][0]},
                 {'x': [provinces[1][0]], 'y': [provinces[1][3]], 'type': 'bar', 'name': provinces[1][0]},
-                {'x': [provinces[2][0]], 'y': [provinces[1][3]], 'type': 'bar', 'name': provinces[2][0]},
-                {'x': [provinces[3][0]], 'y': [provinces[1][3]], 'type': 'bar', 'name': provinces[3][0]},
+                {'x': [provinces[2][0]], 'y': [provinces[2][3]], 'type': 'bar', 'name': provinces[2][0]},
+                {'x': [provinces[3][0]], 'y': [provinces[3][3]], 'type': 'bar', 'name': provinces[3][0]},
+                {'x': [provinces[4][0]], 'y': [provinces[4][3]], 'type': 'bar', 'name': provinces[4][0]}
             ],
             'layout': {
                 'title': 'Dash Data Visualization'
