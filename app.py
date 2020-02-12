@@ -27,6 +27,9 @@ def getprovinces():
 provinces = getprovinces()
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+data = []
+for i in range(len(provinces)): 
+    data.append({'x': [provinces[i][0]], 'y': [provinces[i][3]], 'type': 'Pie', 'name': provinces[i][0]})
 app.layout = html.Div(children=[
     html.H1(children='Hello Dash'),
     html.Div(children='''
@@ -35,13 +38,7 @@ app.layout = html.Div(children=[
     dcc.Graph(
         id='example-graph',
         figure={
-            'data': [
-                {'x': [provinces[0][0]], 'y': [provinces[0][3]], 'type': 'bar', 'name': provinces[0][0]},
-                {'x': [provinces[1][0]], 'y': [provinces[1][3]], 'type': 'bar', 'name': provinces[1][0]},
-                {'x': [provinces[2][0]], 'y': [provinces[2][3]], 'type': 'bar', 'name': provinces[2][0]},
-                {'x': [provinces[3][0]], 'y': [provinces[3][3]], 'type': 'bar', 'name': provinces[3][0]},
-                {'x': [provinces[4][0]], 'y': [provinces[4][3]], 'type': 'bar', 'name': provinces[4][0]}
-            ],
+            'data': data,
             'layout': {
                 'title': 'Dash Data Visualization'
             }
@@ -49,5 +46,4 @@ app.layout = html.Div(children=[
     )
 ])
 if __name__ == '__main__':
-    getprovinces()
     app.run_server(debug=True)
