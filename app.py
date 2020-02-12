@@ -29,7 +29,7 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 data = []
 for i in range(len(provinces)): 
-    data.append({'x': [provinces[i][0]], 'y': [provinces[i][3]], 'type': 'Pie', 'name': provinces[i][0]})
+    data.append({'x': [provinces[i][0]], 'y': [provinces[i][3]], 'type': 'bar', 'name': provinces[i][0]})
 app.layout = html.Div(children=[
     html.H1(children='Hello Dash'),
     html.Div(children='''
