@@ -13,7 +13,9 @@ def dbconnect():
         # get cities
         cities = cur.execute("SELECT * FROM corona")
         rows = cur.fetchone()
-        print(rows)
+        while rows is not None:
+            print(rows)
+            rows = cur.fetchone()
        # close the communication with the PostgreSQL
         cur.close()
     except (Exception, psycopg2.DatabaseError) as error:
