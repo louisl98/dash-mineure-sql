@@ -10,12 +10,13 @@ def dbconnect():
         connection = psycopg2.connect(host="ec2-46-137-177-160.eu-west-1.compute.amazonaws.com", database="dbntjps2ogiaoe", user="jqwpptjnjyvaqw", password="cb6d58e6c0a9e078767b32777fe990054d317a029116a89fd35a8a29e974dcfc")
         # create a cursor
         cur = connection.cursor()
-        # execute a statement
-        print('PostgreSQL database version:')
-        cur.execute('SELECT version()')
-        # display the PostgreSQL database server version
-        db_version = cur.fetchone()
-        print(db_version)
+        # get cities
+        cities = cur.execute("SELECT * FROM corona")
+        print("Nombre de résultats: ", cur.rowcount)
+        row = cur.fetchone()
+        while row is not None:
+            print(row)
+            row = cur.fetchone()
        # close the communication with the PostgreSQL
         cur.close()
     except (Exception, psycopg2.DatabaseError) as error:
