@@ -49,10 +49,7 @@ for i in range(len(cities)):
 #     dates.append(provinces[i][2])
 #     infected.append(provinces[i][3])
 app.layout = html.Div(children=[
-    html.H1(children='Hello Dash'),
-    html.Div(children='''
-        Dash: A web application framework for Python.
-    '''),
+    html.H1(children='SQL for dataviz'),
     dcc.Graph(
         id='example-graph',
         figure={
