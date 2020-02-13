@@ -17,17 +17,22 @@ def getprovinces():
         # # get cities ordered by date
         # cur.execute('SELECT * FROM corona ORDER BY "Last Update" DESC')
         # provincesByDate = cur.fetchall()
-        # close the communication with the PostgreSQL
         # get cities outside China
         cur.execute("SELECT * FROM corona WHERE \"Country/Region\" != 'Mainland China'")
         cities = cur.fetchall()
+        # get total amount of dead people
+        cur.execute('SELECT SUM ("Deaths") FROM corona')
+        deaths = cur.fetchall()
+        # get total amount of recovered people
+        cur.execute('SELECT SUM ("Recovered") FROM corona')
+        recovered = cur.fetchall()
         cur.close()
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
     finally:
         if connection is not None:
             connection.close()
-    return provinces, cities
+    return provinces, cities, deaths, recovered
         
 
 # front-end
@@ -39,10 +44,12 @@ data = []
 data2 = []
 provinces.remove(provinces[0])
 for i in range(len(provinces)): 
-    data.append({'x': [provinces[i][0]], 'y': [provinces[i][3]], 'type': 'bar', 'width': [0.8], 'name': provinces[i][0]})
+    data.append({'x': [provinces[i][0]], 'y': [provinces[i][3]], 'type': 'line', 'width': [0.8], 'name': provinces[i][0]})
 cities = getprovinces()[1]
 for i in range(len(cities)): 
     data2.append({'x': [cities[i][1]], 'y': [cities[i][3]], 'type': 'bar', 'width': [0.8], 'name': cities[i][1]})
+deaths = getprovinces()[2]
+recovered = getprovinces()[3]
 # dates = []
 # infected = []
 # for i in range(len(provincesByDate)): 
@@ -50,6 +57,9 @@ for i in range(len(cities)):
 #     infected.append(provinces[i][3])
 app.layout = html.Div(children=[
     html.H1(children='SQL for dataviz'),
+    html.Div(children='''
+        Coronavirus: Datavisualisation des cas au 9 février 2020.
+    '''),
     dcc.Graph(
         id='example-graph',
         figure={
@@ -67,7 +77,20 @@ app.layout = html.Div(children=[
                 'title': 'Nombre d\'infectés hors de Chine'
             }
         }
-    )
+    ),
+    dcc.Graph(
+            id='graph',
+            figure={
+                'data': [{
+                    'labels': ['Nombre de décès','Nombre de rétablissements'],
+                    'values': [deaths[0][0],recovered[0][0]],
+                    'type': 'pie'
+                }],
+                'layout': {
+                    'title': 'Répartition nombre de décès/nombre de rétablissements'
+                }
+            }
+        )
 #     dcc.Graph(
 #     figure=dict(
 #         data=[
