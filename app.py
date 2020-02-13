@@ -3,7 +3,7 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 import psycopg2
-import plotly.express as px
+import plotly.graph_objects as go
 
 # database
 def getprovinces():
@@ -25,30 +25,15 @@ def getprovinces():
         
 
 # front-end
-provinces = getprovinces()
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-data = []
+labels = []
+values = []
+provinces = getprovinces()
 for i in range(len(provinces)): 
-    data.append({'x': [provinces[i][0]], 'y': [provinces[i][3]], 'type': 'bar', 'name': provinces[i][0]})
-app.layout = html.Div(children=[
-    html.H1(children='Hello Dash'),
-    html.Div(children='''
-        Dash: A web application framework for Python.
-    '''),
-    dcc.Graph(
-        id='example-graph',
-        figure={
-            'data': data,
-            'layout': {
-                'title': 'Dash Data Visualization'
-            }
-        }
-    )
-])
-df = px.data.gapminder().query("year == 2007").query("continent == 'Europe'")
-df.loc[df['pop'] < 2.e6, 'country'] = 'Other countries' # Represent only large countries
-fig = px.pie(df, values='pop', names='country', title='Population of European continent')
+    labels.append(provinces[i][0])
+    values.append(provinces[i][3])
+fig = go.Figure(data=[go.Pie(labels=labels, values=values)])
 fig.show()
 if __name__ == '__main__':
     app.run_server(debug=True)
